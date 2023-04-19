@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -23,9 +22,18 @@ public class Order {
     private Long Id;
 
 
+    @Column(name = "Product_Id")
     private Long productId;
+
+    @Column(name = "Product_Quantity")
     private Long quantity;
-    private Instant oderData;
+
+    @Column(name = "ORDER_DATE")
+    private Instant orderDate;
+
+    @Column(name = "ODER_STATUS")
     private String orderStatus;
+
+    @Column(name = "AMOUNT")
     private Long amount;
 }
