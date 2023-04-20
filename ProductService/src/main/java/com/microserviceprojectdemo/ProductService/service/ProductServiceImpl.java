@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse getProductById(Long productId) {
         Product product = productRepository
                 .findById(productId)
-                .orElseThrow(() -> new ProductServiceException("Product with give id not found!","PRODUCT_NOT_FOUND"));
+                .orElseThrow(() -> new ProductServiceException("Product with give id not found!", "PRODUCT_NOT_FOUND"));
 
 
         ProductResponse productResponse = new ProductResponse();
@@ -49,5 +49,24 @@ public class ProductServiceImpl implements ProductService {
         copyProperties(product, productResponse);
 
         return productResponse;
+    }
+
+    @Override
+    public void reduceQuantity(Long productId, Long quantity) {
+        Product product = productRepository
+                .findById(productId)
+                .orElseThrow(() -> new ProductServiceException("Product with give id not found!", "PRODUCT_NOT_FOUND"));
+
+
+        if (product.getProductQuantity() < quantity) {
+            throw new ProductServiceException("Product does not have sufficient Quantity", "INSUFFICIENT_QUANTITY");
+
+        }
+
+        product.setProductQuantity(product.getProductQuantity()- quantity);
+        productRepository.save(product);
+
+        log.info("Product quantity updated successfully");
+
     }
 }
